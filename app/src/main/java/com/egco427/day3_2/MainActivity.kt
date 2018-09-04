@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.row_main.*
 import kotlinx.android.synthetic.main.row_main.view.*
 import java.security.AccessControlContext
@@ -25,7 +26,10 @@ class MainActivity : AppCompatActivity() {
         //listView.setBackgroundColor(redColor)
 
         listView.adapter = myCustomAdapter(this)
-        listView.setOnItemClickListener(,view,position,id->)
+        listView.setOnItemClickListener{adapterView,view,position,id->
+            val item = adapterView.getItemAtPosition(position) as String
+            Toast.makeText(this,"${item} $position",Toast.LENGTH_LONG).show()
+        }
     }
 
     private class myCustomAdapter(context: Context):BaseAdapter(){
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun getItem(position: Int): Any {
-            return "Test"
+            return names[position]
         }
 
         override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
