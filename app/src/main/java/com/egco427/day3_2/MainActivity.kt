@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         //listView.setBackgroundColor(redColor)
 
         listView.adapter = myCustomAdapter(this)
+        listView.setOnItemClickListener(,view,position,id->)
     }
 
     private class myCustomAdapter(context: Context):BaseAdapter(){
@@ -50,10 +51,21 @@ class MainActivity : AppCompatActivity() {
             //val textView = TextView(mContext)
             val whiteColor = Color.parseColor("#FFFFFF")
             val greyColor = Color.parseColor("#E0E0E0")
-            val layoutInflater = LayoutInflater.from(mContext)
-            val rewMain = layoutInflater.inflate(R.layout.row_main,viewGroup,false)
-            rewMain.nameText.text = names.get(position)
-            rewMain.positionText.text = "Row Number: $position"
+            val rewMain: View
+            if (convertView==null) {
+                val layoutInflater = LayoutInflater.from(viewGroup!!.context)
+                rewMain = layoutInflater.inflate(R.layout.row_main, viewGroup, false)
+                val viewHolder = ViewHolder(rewMain.nameText,rewMain.positionText)
+                rewMain.tag = viewHolder
+            }
+            else{
+                rewMain = convertView
+            }
+            val viewHolder = rewMain.tag as ViewHolder
+            viewHolder.nameText.text = names.get(position)
+            viewHolder.positionText.text = "Row Number: $position"
+            //rewMain.nameText.text = names.get(position)
+            //rewMain.positionText.text = "Row Number: $position"
             if(position.rem(2)==0){
                 rewMain.setBackgroundColor(whiteColor)
             }
@@ -63,5 +75,6 @@ class MainActivity : AppCompatActivity() {
             //textView.text = "Hello World "+position.toString()
             return rewMain
         }
+        private class ViewHolder(val nameText: TextView,val positionText : TextView){}
     }
 }
